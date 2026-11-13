@@ -38,3 +38,17 @@ Decision needed: which wearable dataset, or simulation only.
 ## Step 5: Everything committed (2026-11-13)
 - `data/osdr_metadata/`: the 445 OSDR metadata zips (42 MB). Missing studies: re-run the script.
 - `docs/sources/nasa_hrp_hazards.html`: saved copy of the NASA HRP hazards page (overview only, no data).
+
+## Step 6: Working app (2026-11-13 evening)
+- Team now one person. Built the whole demo: FastAPI backend, simulator, per-astronaut Isolation Forest, Health Score, smart alerts,
+  smart pharmacy with radiation-adjusted expiry, AI assistant (Claude + offline protocols), React dashboard with demo console.
+- Run with `./run.sh`. Feature list and demo script in `README.md`.
+- ML check: 50 simulated hours of normal data gave 0 false alerts; tachycardia, hypoxia and fever were each caught and named correctly.
+
+## Step 7: Real data, roles, RIDGE risks, real chatbot, redesign (2026-11-13 night)
+- Vitals now replay REAL Fitbit data (Zenodo 53894) for heart rate, activity and sleep; SpO2/temperature simulated. Tags REAL / SIM / MODEL everywhere.
+- Logins: astronaut (own data only), CMO (whole crew), flight surgeon on Earth (everything, delayed by light-time). Privacy enforced in the API.
+- Long-mission risks by NASA RIDGE hazards with projections to mission end.
+- Assistant is a real chatbot: Claude or local Ollama model (qwen2.5:1.5b) or onboard protocols; streaming, Arabic, retrieval, guided procedures, voice, SOAP case reports to Earth.
+- Store-and-forward comms with Earth, private medical conferences, proactive check-ins with crew feedback on alerts.
+- New professional UI with light and dark themes and subtle motion.
