@@ -24,6 +24,12 @@ ollama pull qwen2.5:1.5b
 VitalOrbit detects it automatically. If `ANTHROPIC_API_KEY` is set it uses Claude instead. With neither, the assistant
 answers from built-in onboard protocols, so it always works.
 
+## Submission
+- **30-second demo video:** [`submission/VitalOrbit_demo_30s.mp4`](submission/VitalOrbit_demo_30s.mp4) (recorded from the app's self-running tour, English captions)
+- **7-slide presentation:** [`submission/VitalOrbit_slides.pdf`](submission/VitalOrbit_slides.pdf)
+- **Self-running tour:** open `http://localhost:8000/?tour=1` and watch the app drive itself through the demo
+- Rebuild: `python3 submission/build_slides.py` (slides), `submission/capture_shots.sh` (screenshots)
+
 ## Logins (demo PINs, shown on the sign-in screen)
 
 | User | Role | Sees |

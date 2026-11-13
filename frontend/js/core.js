@@ -8,8 +8,10 @@ const store = {
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
 };
 let TOKEN = store.get("vo_token", null);
+const CACHE = {};   // last response per path: pages render instantly, then refresh (cleared on sign-in change)
 const api = {
-  setToken(t) { TOKEN = t; store.set("vo_token", t); },
+  setToken(t) { TOKEN = t; store.set("vo_token", t); for (const k in CACHE) delete CACHE[k]; },
+  async prefetch(paths) { await Promise.all(paths.map((p) => api.get(p).then((d) => (CACHE[p] = d)).catch(() => {}))); },
   async req(path, method = "GET", body) {
     const r = await fetch("/api" + path, {
       method, headers: { "content-type": "application/json", ...(TOKEN ? { authorization: "Bearer " + TOKEN } : {}) },
@@ -43,12 +45,13 @@ const api = {
 
 /* ---------------- hooks ---------------- */
 function usePoll(path, ms = 1000, deps = []) {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState(path ? CACHE[path] ?? null : null);
   const [n, setN] = useState(0);
   useEffect(() => {
     if (!path) return;
     let alive = true;
-    const load = () => api.get(path).then((d) => alive && setData(d)).catch(() => {});
+    if (CACHE[path] !== undefined) setData(CACHE[path]);
+    const load = () => api.get(path).then((d) => { CACHE[path] = d; alive && setData(d); }).catch(() => {});
     load();
     const t = setInterval(load, ms);
     return () => { alive = false; clearInterval(t); };
