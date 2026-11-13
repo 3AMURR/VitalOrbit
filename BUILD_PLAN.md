@@ -1,5 +1,8 @@
 # UnoSyn: 48-hour build plan
 
+> **Historical document (registration phase).** The product is now called **VitalOrbit** (team name stays UnoSyn), runs on real Fitbit wearable data, and the live mission is day 432 on the Mars surface. See `README.md` for the current system.
+
+
 Rule #1: **the demo must work at hour 40.** The last 8 hours are for polish, the video and slides only.
 Rule #2: build in priority tiers. Don't start a tier before the one above it is shown working end-to-end.
 

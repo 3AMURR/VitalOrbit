@@ -1,0 +1,17 @@
+# Personal documents: never commit (public repo)
+National_ID_*.pdf
+*.png
+*.jpeg
+*.jpg
+!frontend/**/*.png
+!frontend/**/*.jpg
+# Python / Node
+__pycache__/
+.venv/
+node_modules/
+*.db
+.env
+backend/vitalorbit.db
+data/fitbit/fitbit.zip
+data/fitbit/raw/
+.claude/

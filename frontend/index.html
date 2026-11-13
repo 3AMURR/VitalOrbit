@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VitalOrbit</title>
+  <meta name="description" content="VitalOrbit: autonomous onboard crew health system for deep-space missions" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b0d10'/%3E%3Ccircle cx='16' cy='13.4' r='6.4' fill='%234aa8ff' opacity='.85'/%3E%3Ccircle cx='18.6' cy='10.6' r='1.6' fill='%23ff7a59'/%3E%3Cpath d='M5 5.5 L16 27.5 L27 5.5' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script>
+    try {
+      var t = JSON.parse(localStorage.getItem("vo_theme"));
+      document.documentElement.dataset.theme = t || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+    } catch (e) { document.documentElement.dataset.theme = "dark"; }
+  </script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="root"></div>
+  <script src="vendor/react.production.min.js"></script>
+  <script src="vendor/react-dom.production.min.js"></script>
+  <script src="vendor/htm.umd.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/space.js"></script>
+  <script src="js/views-health.js"></script>
+  <script src="js/views-ops.js"></script>
+</body>
+</html>

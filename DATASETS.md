@@ -43,3 +43,9 @@ studies of medicines flown on the ISS (Du et al., *AAPS Journal* 2011), not from
 - Inspiration4 example: https://osdr.nasa.gov/bio/repo/data/studies/OSD-569
 - OSDR controlled-access guide: https://www.nasa.gov/reference/osdr-tutorials-requesting-controlled-access-datasets/
 - LSDA: https://lsda.jsc.nasa.gov/
+
+## Update (2026-11-13): real wearable data in the app
+- Heart rate, activity and sleep of the 4 astronauts are **real**: 5-minute streams from 4 participants of the
+  "Crowd-sourced Fitbit datasets 03.12.2016-05.12.2016" (Furberg et al., Zenodo record 53894, CC-BY 4.0).
+- Built by `scripts/prepare_fitbit.py` into `data/fitbit/crew_wearable.csv.gz` (148 KB). The raw 25 MB zip is not committed.
+- SpO2, temperature, cabin environment, SANS exams and check-in history remain simulated and are tagged SIM in the UI.

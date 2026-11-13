@@ -1,5 +1,8 @@
 # UnoSyn: 90-second registration video (presenter on camera)
 
+> **Historical document (registration phase).** The product is now called **VitalOrbit** (team name stays UnoSyn), runs on real Fitbit wearable data, and the live mission is day 432 on the Mars surface. See `README.md` for the current system.
+
+
 About 210 words, spoken at a calm pace. One presenter talks to the camera; the team joins at the end.
 Nothing needs to be built yet: optional slides/images can be cut in where marked.
 

@@ -1,4 +1,4 @@
-# UnoSyn — NASA Space Apps Cairo 2026
+# VitalOrbit (team UnoSyn) — NASA Space Apps Cairo 2026
 
 ## Context
 Team of CS students from Egyptian Chinese University (ECU) competing in NASA Space Apps Cairo 2026.
@@ -10,7 +10,7 @@ On long missions (Mars), messages to Earth take up to ~20 min each way, so the c
 medical issues alone. Key health risks: bone loss, muscle atrophy, vision damage (SANS), radiation,
 poor sleep, isolation/stress. NASA's current solutions mostly depend on ground support.
 
-## Product: UnoSyn — onboard crew health system (software only)
+## Product: VitalOrbit — onboard crew health system (software only)
 1. **Crew Dashboard** — card per astronaut with a Health Score (/100) and vital signs (HR, SpO2, temp, sleep).
 2. **Anomaly Detection** — Isolation Forest (scikit-learn) on vital signs; flags unusual patterns early.
 3. **Smart Alerts** — e.g. "Astronaut X: abnormal heart rate for 3 hours".
@@ -23,7 +23,7 @@ poor sleep, isolation/stress. NASA's current solutions mostly depend on ground s
 - ML: scikit-learn (Isolation Forest)
 - Frontend: React
 - AI: any LLM API for the assistant
-- Data: simulated vitals + NASA Open Science Data Repository (OSDR/GeneLab), Life Sciences Data Archive, Twins Study
+- Data: real Fitbit wearable data (Zenodo 53894) for HR/activity/sleep, simulated SpO2/temp; NASA OSDR, HRP, RAD dose rates and published studies ground the risks
 
 ## Team split
 | Person | Responsibility |
@@ -43,3 +43,8 @@ On Mars missions, messages to Earth take up to 20 minutes each way, so crews mus
 - `DATASETS.md`: dataset verification. OSDR has no astronaut vital-sign time series, so vitals are simulated; NASA data grounds the risks and thresholds only.
 - `BUILD_PLAN.md`: 48-hour plan, API contract, design decisions, demo scenario.
 - `VIDEO_SCRIPT.md`: 90-second registration video script.
+
+## Current state (2026-11-13 evening)
+- Built solo; teammates left. Deadline Sat 14 Nov 13:00 Cairo.
+- Working app: `./run.sh` → http://localhost:8000. Code in `backend/` (FastAPI, engine, pharmacy, assistant) and `frontend/` (React UMD + htm, no npm).
+- `README.md` has the feature list, demo script and data honesty notes.

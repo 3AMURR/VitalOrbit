@@ -34,7 +34,7 @@ Today's spaceflight medicine depends heavily on **flight surgeons on the ground*
 That works for the ISS (seconds of delay) but **not for Mars**. The crew needs to become its own first line of care.
 
 ## 3. The solution
-UnoSyn is **software that runs onboard the spacecraft**. It watches the crew's health continuously,
+VitalOrbit is **software that runs onboard the spacecraft**. It watches the crew's health continuously,
 catches problems early, guides the crew through treatment and makes sure the right medicine is available.
 
 ### The five modules
@@ -73,14 +73,14 @@ catches problems early, guides the crew through treatment and makes sure the rig
 - Tracks every medicine: name, quantity, minimum quantity, expiry date.
 - Warns on **low stock** and **near expiry**.
 - **Radiation-adjusted expiry:** space radiation degrades drugs faster than on Earth (NASA ISS medication
-  stability studies), so UnoSyn estimates an earlier "effective expiry":
+  stability studies), so VitalOrbit estimates an earlier "effective expiry":
   `effective_expiry = expiry − (days_in_mission × radiation_factor)`
 - Linked to the AI assistant: any suggested drug is checked here first.
 
 ## 4. How it works (data flow)
 
 ```
- Wearable sensors (simulated)
+ Wearable sensors (real Fitbit HR/sleep + simulated SpO2/temp)
             │  heart rate, SpO2, temperature, sleep
             ▼
  ┌──────────────────────┐     ┌──────────────────────────┐
@@ -119,7 +119,7 @@ The result is clamped to 0–100. It is simple and explainable: the crew can see
 ## 7. NASA data: how we use it (honestly)
 - We checked NASA's **Open Science Data Repository (OSDR)**: it has **no public astronaut vital-sign time series**.
   It is mostly biological (omics) data.
-- So the **live vitals are simulated** with realistic, physiologically based baselines.
+- So heart rate, activity and sleep come from **real wearable recordings** (public Fitbit dataset, Zenodo 53894, CC-BY 4.0) replayed as the 4 astronauts; SpO2 and temperature are simulated because Fitbit does not record them.
 - **NASA data grounds the risks and thresholds:**
   - **Inspiration4** (OSD-569 to OSD-574): physiological changes in civilian astronauts after just 3 days in space
   - **Bone and muscle studies** (e.g. OSD-342, OSD-396, OSD-195 bedrest)
@@ -130,7 +130,7 @@ The result is clamped to 0–100. It is simple and explainable: the crew can see
 - Full details are in `DATASETS.md`.
 
 ## 8. Demo scenario (about 2 minutes)
-1. **Dashboard:** 4 crew members, all green. *"Mission day 142, 18 minutes from Earth."*
+1. **Dashboard:** 4 crew members, all green. *"Mission day 432, crew on the Mars surface, 19 light-minutes from Earth."*
 2. Press **"Inject emergency"** (tachycardia) on one astronaut. The chart spikes, the ML flags it,
    the score drops 92 → 58, and an alert appears: *"abnormal heart rate for 3 hours."*
 3. **Assistant:** *"I feel dizzy and my heart is racing."* It gives step-by-step guidance and suggests a drug,
@@ -138,7 +138,7 @@ The result is clamped to 0–100. It is simple and explainable: the crew can see
 4. **Inventory:** one drug ⚠️ "expires early due to radiation", another low on stock.
 5. **Close:** *"No waiting forty minutes for Earth: the crew is its own first responder."*
 
-## 9. What makes UnoSyn different
+## 9. What makes VitalOrbit different
 - **Built for autonomy:** designed for deep space, where ground support is too slow.
 - **Personal baselines:** the ML learns each astronaut's own normal, not population averages.
 - **Closed loop:** detect → alert → guide → check medicine, all in one system.
@@ -165,7 +165,7 @@ remote villages and field hospitals. That makes the idea useful beyond NASA miss
 
 Full timeline, API contract and roles are in `BUILD_PLAN.md`.
 
-## 13. Registration description (579 chars)
+## 13. Registration description (579 chars, as submitted when the product was still called UnoSyn)
 > On Mars missions, messages to Earth take up to 20 minutes each way, so crews must handle medical issues alone. UnoSyn is an onboard crew health system: a dashboard with a health score per astronaut, ML anomaly detection that flags abnormal vital signs early, an AI medical assistant for step-by-step first aid, and a smart pharmacy that warns of low stock and radiation-shortened drug expiry. We'll build a web app with FastAPI, scikit-learn and React, using simulated vitals with thresholds grounded in NASA OSDR spaceflight data (Inspiration4, bone, vision, radiation studies).
 
 ## 14. Related files

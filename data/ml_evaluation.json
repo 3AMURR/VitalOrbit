@@ -1,0 +1,115 @@
+{
+  "data": "Real Fitbit heart rate, activity and sleep (Zenodo 53894) for 4 people; SpO2/temperature simulated",
+  "normal_days": 3,
+  "crew": 4,
+  "readings_scored": 3456,
+  "false_warnings": 1,
+  "false_critical": 0,
+  "false_warnings_per_crew_day": 0.08,
+  "scenarios_tested": 12,
+  "detected": 12,
+  "detection_rate": 1.0,
+  "correct_vital_rate": 1.0,
+  "median_minutes_to_alert": 45.0,
+  "critical_by_3h_rate": 1.0,
+  "step_minutes": 5,
+  "runtime_s": 47.6,
+  "results": [
+    {
+      "astronaut": "Sara Haddad",
+      "scenario": "tachycardia",
+      "detected": true,
+      "minutes_to_first_alert": 45,
+      "correct_vital": true,
+      "critical_by_3h": true
+    },
+    {
+      "astronaut": "Lucas Meyer",
+      "scenario": "tachycardia",
+      "detected": true,
+      "minutes_to_first_alert": 50,
+      "correct_vital": true,
+      "critical_by_3h": true
+    },
+    {
+      "astronaut": "Amina Okafor",
+      "scenario": "tachycardia",
+      "detected": true,
+      "minutes_to_first_alert": 50,
+      "correct_vital": true,
+      "critical_by_3h": true
+    },
+    {
+      "astronaut": "Kenji Watanabe",
+      "scenario": "tachycardia",
+      "detected": true,
+      "minutes_to_first_alert": 45,
+      "correct_vital": true,
+      "critical_by_3h": true
+    },
+    {
+      "astronaut": "Sara Haddad",
+      "scenario": "hypoxia",
+      "detected": true,
+      "minutes_to_first_alert": 50,
+      "correct_vital": true,
+      "critical_by_3h": true
+    },
+    {
+      "astronaut": "Lucas Meyer",
+      "scenario": "hypoxia",
+      "detected": true,
+      "minutes_to_first_alert": 50,
+      "correct_vital": true,
+      "critical_by_3h": true
+    },
+    {
+      "astronaut": "Amina Okafor",
+      "scenario": "hypoxia",
+      "detected": true,
+      "minutes_to_first_alert": 30,
+      "correct_vital": true,
+      "critical_by_3h": true
+    },
+    {
+      "astronaut": "Kenji Watanabe",
+      "scenario": "hypoxia",
+      "detected": true,
+      "minutes_to_first_alert": 45,
+      "correct_vital": true,
+      "critical_by_3h": true
+    },
+    {
+      "astronaut": "Sara Haddad",
+      "scenario": "fever",
+      "detected": true,
+      "minutes_to_first_alert": 45,
+      "correct_vital": true,
+      "critical_by_3h": true
+    },
+    {
+      "astronaut": "Lucas Meyer",
+      "scenario": "fever",
+      "detected": true,
+      "minutes_to_first_alert": 45,
+      "correct_vital": true,
+      "critical_by_3h": true
+    },
+    {
+      "astronaut": "Amina Okafor",
+      "scenario": "fever",
+      "detected": true,
+      "minutes_to_first_alert": 45,
+      "correct_vital": true,
+      "critical_by_3h": true
+    },
+    {
+      "astronaut": "Kenji Watanabe",
+      "scenario": "fever",
+      "detected": true,
+      "minutes_to_first_alert": 30,
+      "correct_vital": true,
+      "critical_by_3h": true
+    }
+  ]
+}
