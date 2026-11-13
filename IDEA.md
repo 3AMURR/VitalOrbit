@@ -1,4 +1,4 @@
-# UnoSyn: Onboard Crew Health System
+# VitalOrbit: Onboard Crew Health System
 
 **NASA Space Apps Cairo 2026**
 **Challenge:** Create Health Monitoring Software for Astronauts on Space Missions
@@ -9,7 +9,7 @@
 ---
 
 ## 1. One-line pitch
-UnoSyn is an onboard health system that lets astronauts on deep-space missions monitor, detect and respond
+VitalOrbit is an onboard health system that lets astronauts on deep-space missions monitor, detect and respond
 to medical problems themselves, without waiting for doctors on Earth.
 
 ## 2. The problem
