@@ -29,3 +29,8 @@ Proposed split, nothing downloaded yet:
 | Risk grounding | The OSDR studies listed in `DATASETS.md` (cite only) |
 
 Decision needed: which wearable dataset, or simulation only.
+
+## Step 4: Roles and data pack (2026-11-13)
+- Roles so far: Maro = pharmacy, dashboard, UI. Marcelo = chatbot. Ammar = ML.
+- Gaps: backend and API, simulator, health score and alerts, pitch and demo. See `docs/DATA_PACK.md`.
+- Checked live: openFDA, LifeSnaps (Zenodo), WESAD (UCI) respond. PMData and RxNorm did not respond from here.
