@@ -13,7 +13,7 @@ Newest entries at the bottom. One entry per step so the whole team can follow.
 ## Step 2: OSDR metadata pulled (2026-11-13)
 - OSDR (osdr.nasa.gov) has **577 studies**. Raw files total about **185 TB**, so we do **not** download raw data.
 - Downloaded the small ISA metadata zip for each study: **445 files, 42 MB**. About 14 studies timed out; re-run the script to fill the gaps.
-- Script: `scripts/download_osdr_metadata.py`. Output goes to `data/osdr_metadata/` (gitignored, not committed).
+- Script: `scripts/download_osdr_metadata.py`. Files are committed in `data/osdr_metadata/` (445 zips, 42 MB).
 - Not yet done: confirm that the OSD IDs cited in `DATASETS.md` (569-574, 342, 396, 195, 816, 397, 334, 720, 881) exist in the downloaded set.
 
 ## Step 3: Data selection (open, to discuss)
@@ -34,3 +34,7 @@ Decision needed: which wearable dataset, or simulation only.
 - Roles so far: Maro = pharmacy, dashboard, UI. Marcelo = chatbot. Ammar = ML.
 - Gaps: backend and API, simulator, health score and alerts, pitch and demo. See `docs/DATA_PACK.md`.
 - Checked live: openFDA, LifeSnaps (Zenodo), WESAD (UCI) respond. PMData and RxNorm did not respond from here.
+
+## Step 5: Everything committed (2026-11-13)
+- `data/osdr_metadata/`: the 445 OSDR metadata zips (42 MB). Missing studies: re-run the script.
+- `docs/sources/nasa_hrp_hazards.html`: saved copy of the NASA HRP hazards page (overview only, no data).
