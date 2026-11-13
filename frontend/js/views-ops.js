@@ -283,7 +283,7 @@ function Comms({ user, mission, crew }) {
       <div className="card enter enter-1">
         ${!msgs ? html`<div className="card-body"><div className="skel" style=${{ height: 200 }}></div></div>` : msgs.length === 0 ? html`<${Empty} icon="radio">No messages yet.</${Empty}>` :
           html`<div>${msgs.map((m) => {
-            const total = m.arrive ? m.arrive - m.sent : 1, prog = m.arrive ? Math.min(1, (mission.met_min - m.sent) / total) : 0;
+            const total = m.arrive ? m.arrive - m.sent : 1, prog = m.arrive && mission ? Math.min(1, (mission.met_min - m.sent) / total) : 0;
             return html`<div key=${m.id} className="alert-row" style=${{ gridTemplateColumns: "28px 1fr", cursor: "pointer", background: open === m.id ? "var(--surface-2)" : undefined }} onClick=${() => setOpen(m.id)}>
               <div style=${{ color: m.kind === "alert" ? "var(--crit)" : m.private ? "var(--violet)" : "var(--accent)" }}><${Icon} n=${{ alert: "alert", case: "file", checkin: "smile", message: m.private ? "lock" : "chat" }[m.kind] || "chat"}/></div>
               <div><div className="between"><b className="small">${m.subject}</b><span className="xs muted mono">${fmtMet(m.sent)}</span></div>
@@ -370,13 +370,96 @@ function Toasts({ alerts }) {
     <div style=${{ marginTop: 4 }}>${a.message}</div></div>`)}</div>`;
 }
 
+/* ---------------- self-running demo tour (?tour=1): drives the real app and shows captions ---------------- */
+function useTour(setUser, setCaption) {
+  useEffect(() => {
+    if (!/[?&]tour=1/.test(location.search)) return;
+    const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+    const COMMON = ["/mission", "/crew", "/alerts"];
+    const PRE = {
+      amina: ["/ml/evaluation"],
+      sara: ["/crew/1", "/crew/1/vitals?hours=24", "/crew/1/risks", "/medlog/1", "/checkins/1", "/prompts", "/assistant/status"],
+      mansour: ["/comms", "/crew/1/risks", "/crew/2/risks", "/crew/3/risks", "/crew/4/risks"],
+    };
+    const as = async (id, pin, hash) => {
+      const r = await api.post("/login", { user_id: id, pin }); api.setToken(r.token);
+      await api.prefetch([...COMMON, ...(PRE[id] || [])]);   // render the next page instantly
+      setUser(r.user); location.hash = hash;
+    };
+    document.documentElement.classList.add("touring");
+    const click = (txt) => { const b = [...document.querySelectorAll("button")].find((x) => x.textContent.includes(txt)); b && b.click(); };
+    const scrollTo = (sel, off = 70) => { const e = document.querySelector(sel); e && window.scrollTo({ top: e.getBoundingClientRect().top + scrollY - off, behavior: "instant" }); };
+    (async () => {
+      api.setToken(null); setUser(null); location.hash = "";
+      await wait(400);
+      setCaption("On Mars, Earth is 19 light-minutes away. The crew must handle medical problems alone.");
+      await wait(3200);
+      await as("amina", "3333", "#/crew");
+      await api.post("/demo/speed?seconds_per_reading=0.3");
+      setCaption("VitalOrbit runs onboard. It learns each astronaut's normal from real wearable data.");
+      await wait(1800);
+      await api.post("/demo/inject", { crew_id: 1, type: "tachycardia" });
+      await wait(900);
+      scrollTo(".split");
+      await wait(1100);
+      setCaption("Sara's heart races at rest. Her personal ML model flags it and alerts the crew.");
+      await wait(3600);
+      await as("sara", "1111", "#/me");
+      await api.post("/chat/reset");
+      window.scrollTo(0, 0);
+      setCaption("Before it becomes an emergency, VitalOrbit asks Sara how she feels.");
+      await wait(3000);
+      click("I don't feel well");
+      setCaption("The offline assistant already knows it's her heart: protocol, timers, medicine checked in the pharmacy.");
+      await wait(4000);
+      click("Start guided procedure");
+      await api.post("/cases", {});
+      setCaption("Hands-free guided care. A case report is sent to Earth.");
+      await wait(3000);
+      await as("mansour", "9999", "#/comms");
+      setCaption("Mission Control receives it 19 minutes later. The crew has already acted.");
+      await wait(3200);
+      location.hash = "#/risks";
+      setCaption("Beyond emergencies: radiation, bone, muscle, vision and mind, forecast to mission end.");
+      await wait(3600);
+      api.setToken(null); setUser(null); location.hash = "";
+      setCaption("VitalOrbit · Medicine beyond Earth's reach");
+      await api.post("/demo/speed?seconds_per_reading=1").catch(() => {});
+      await wait(3500);
+      setCaption("");
+    })();
+  }, []);
+}
+
+/* ?as=<user> signs in with the demo PIN (screenshots, demo links); ?scroll=<selector> scrolls once rendered */
+function useAutoLogin(setUser) {
+  useEffect(() => {
+    const q = new URLSearchParams(location.search), who = q.get("as");
+    if (!who) return;
+    api.get("/users").then((us) => {
+      const u = us.find((x) => x.id === who);
+      return u && api.post("/login", { user_id: u.id, pin: u.demo_pin });
+    }).then((r) => { if (r) { api.setToken(r.token); setUser(r.user); } });
+    const sel = q.get("scroll");
+    if (sel) setTimeout(() => { const e = document.querySelector(sel); e && window.scrollTo(0, e.getBoundingClientRect().top + scrollY - 70); }, 5000);
+  }, []);
+}
+
+function TourCaption({ text }) {
+  if (!text) return null;
+  return html`<div className="tour-cap" key=${text}>${text}</div>`;
+}
+
 /* ---------------- app ---------------- */
 function App() {
-  const [theme, setThemeS] = useState(store.get("vo_theme", matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"));
+  const [theme, setThemeS] = useState((location.search.match(/[?&]theme=(dark|light)/) || [])[1] || store.get("vo_theme", matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"));
   const setTheme = (t) => { setThemeS(t); store.set("vo_theme", t); };
   useEffect(() => { document.documentElement.dataset.theme = theme; }, [theme]);
   const [user, setUser] = useState(undefined);
   const [demoOpen, setDemoOpen] = useState(false);
+  const [caption, setCaption] = useState("");
+  useTour(setUser, setCaption);
+  useAutoLogin(setUser);
   const route = useHash();
   useEffect(() => {
     if (!TOKEN) { setUser(null); return; }
@@ -390,7 +473,7 @@ function App() {
   const [alerts, reloadAlerts] = usePoll(user ? "/alerts" : null, 1500, [user && user.id]);
 
   if (user === undefined) return html`<div></div>`;
-  if (!user) return html`<${Login} theme=${theme} setTheme=${setTheme} onLogin=${(u) => { setUser(u); location.hash = u.role === "astronaut" ? "#/me" : "#/crew"; }}/>`;
+  if (!user) return html`<${Fragment}><${Login} theme=${theme} setTheme=${setTheme} onLogin=${(u) => { setUser(u); location.hash = u.role === "astronaut" ? "#/me" : "#/crew"; }}/><${TourCaption} text=${caption}/><//>`;
   const home = user.role === "astronaut" ? "#/me" : "#/crew";
   const r = route === "#/" || route === "" ? home : route;
   let page;
@@ -406,6 +489,7 @@ function App() {
     <${Shell} user=${user} route=${r} mission=${mission} alerts=${alerts} theme=${theme} setTheme=${setTheme} demoOpen=${demoOpen} setDemoOpen=${setDemoOpen}
       onLogout=${() => { api.setToken(null); setUser(null); location.hash = ""; }}>${page}</${Shell}>
     <${Toasts} alerts=${alerts}/>
+    <${TourCaption} text=${caption}/>
     ${demoOpen && html`<${Demo} crew=${crew} mission=${mission} onClose=${() => setDemoOpen(false)}/>`}
   </${Fragment}>`;
 }

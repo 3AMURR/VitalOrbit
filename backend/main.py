@@ -126,6 +126,15 @@ def get_model(cid: int, u=User):
     return mission.model_card(cid)
 
 
+@app.get("/api/_wait")
+async def _wait(ms: int = 6000):
+    """Screenshot helper: an image that loads slowly, so headless browsers capture after the app has rendered data."""
+    from fastapi.responses import Response
+    await asyncio.sleep(min(ms, 20000) / 1000)
+    gif = bytes.fromhex("47494638396101000100800000000000ffffff21f90401000000002c00000000010001000002024401003b")
+    return Response(gif, media_type="image/gif")
+
+
 @app.get("/api/ml/evaluation")
 def ml_evaluation(u=User):
     """Results of scripts/evaluate_ml.py on the real wearable streams."""

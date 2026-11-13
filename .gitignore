@@ -15,3 +15,6 @@ backend/vitalorbit.db
 data/fitbit/fitbit.zip
 data/fitbit/raw/
 .claude/
+submission/video/
+submission/slides/
+submission/shots/

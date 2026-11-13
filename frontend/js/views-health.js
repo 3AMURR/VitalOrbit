@@ -379,7 +379,7 @@ function Health({ user, cid, mission }) {
 
 /* ---------------- long-term risk board ---------------- */
 function RiskBoard({ crew, mission }) {
-  const [all, setAll] = useState({});
+  const [all, setAll] = useState(() => Object.fromEntries([1, 2, 3, 4].map((i) => [i, CACHE[`/crew/${i}/risks`]]).filter((x) => x[1])));
   useEffect(() => {
     if (!crew) return;
     let alive = true;

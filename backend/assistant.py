@@ -290,13 +290,13 @@ def chat_stream(user, crew, risks, mission, message, dose_msv):
     ar = is_arabic(message)
     rkeys = risk_question(q)
     proto = None if rkeys else match_protocol(q)
+    # vague complaint ("I don't feel well") during a live anomaly: use what the sensors already see
+    if proto is None and not rkeys and crew and crew.get("anomaly_vital"):
+        hint = {"hr": "heart racing", "spo2": "short of breath", "temp": "fever"}[crew["anomaly_vital"]]
+        proto = match_protocol(hint)
     # follow-ups ("it's getting worse") keep the last protocol
     if proto is None and hist and not rkeys:
         proto = next((p for p in PROTOCOLS if p["summary"] == hist[-1].get("protocol")), None)
-    # vague complaint ("I don't feel well") during a live anomaly: use what the sensors already see
-    if proto is None and crew and crew.get("anomaly_vital"):
-        hint = {"hr": "heart racing", "spo2": "short of breath", "temp": "fever"}[crew["anomaly_vital"]]
-        proto = match_protocol(hint)
     knowledge = retrieve(q + " " + (proto["summary"] if proto else ""))
     meds = pharmacy.list_all(dose_msv)
 
