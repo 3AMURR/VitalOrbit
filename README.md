@@ -7,6 +7,8 @@ VitalOrbit runs onboard. It learns each astronaut's own normal from **real weara
 forecasts the slow long-mission risks (NASA's RIDGE hazards), guides first aid with an **offline AI assistant**,
 keeps a radiation-aware pharmacy, and syncs with the flight surgeon on Earth through a light-time-delayed link.
 
+**Live demo:** https://vitalorbit.vercel.app (log in as any crew member; demo PINs are on the login screen)
+
 ## Run it
 
 ```bash
