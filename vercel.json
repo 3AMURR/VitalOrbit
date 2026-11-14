@@ -5,5 +5,8 @@
       "maxDuration": 60,
       "excludeFiles": "{data/osdr_metadata/**,docs/**,submission/**,scripts/**,*.pdf,.venv/**}"
     }
-  }
+  },
+  "regions": [
+    "fra1"
+  ]
 }

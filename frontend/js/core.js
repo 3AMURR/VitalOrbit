@@ -8,9 +8,24 @@ const store = {
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
 };
 let TOKEN = store.get("vo_token", null);
+let CHAIN = Promise.resolve();
+const INFLIGHT = new Map();
+function serial(fn) { const p = CHAIN.then(() => fn()); CHAIN = p.catch(() => {}); return p; }
 const api = {
   setToken(t) { TOKEN = t; store.set("vo_token", t); },
-  async req(path, method = "GET", body) {
+  // One request in flight at a time, and identical GETs share one answer. On serverless hosts (Vercel) every
+  // server instance runs its own simulation; sequential requests keep a browser on one warm instance.
+  req(path, method = "GET", body) {
+    if (method === "GET") {
+      const hit = INFLIGHT.get(path);
+      if (hit) return hit;
+      const p = serial(() => api.send(path, method, body)).finally(() => INFLIGHT.delete(path));
+      INFLIGHT.set(path, p);
+      return p;
+    }
+    return serial(() => api.send(path, method, body));
+  },
+  async send(path, method, body) {
     const r = await fetch("/api" + path, {
       method, headers: { "content-type": "application/json", ...(TOKEN ? { authorization: "Bearer " + TOKEN } : {}) },
       body: body ? JSON.stringify(body) : undefined,
@@ -24,7 +39,8 @@ const api = {
   post(p, b) { return api.req(p, "POST", b || {}); },
   put(p, b) { return api.req(p, "PUT", b); },
   del(p) { return api.req(p, "DELETE"); },
-  async stream(path, body, onLine) {
+  stream(path, body, onLine) { return serial(() => api.streamNow(path, body, onLine)); },
+  async streamNow(path, body, onLine) {
     const r = await fetch("/api" + path, { method: "POST", headers: { "content-type": "application/json", authorization: "Bearer " + TOKEN }, body: JSON.stringify(body) });
     const reader = r.body.getReader(), dec = new TextDecoder();
     let buf = "";
