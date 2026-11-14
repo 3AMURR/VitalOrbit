@@ -1,0 +1,6 @@
+submission/
+data/osdr_metadata/
+docs/
+*.pdf
+.venv/
+backend/vitalorbit.db

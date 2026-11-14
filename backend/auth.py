@@ -7,6 +7,9 @@ Roles
 """
 from __future__ import annotations
 
+import hashlib
+import hmac
+import os
 import secrets
 
 from fastapi import Header, HTTPException
@@ -20,6 +23,11 @@ USERS = {
                     crew_id=None, pin="9999"),
 }
 TOKENS: dict[str, str] = {}
+# Tokens are "<user>.<hmac>" so any server instance can verify them (needed on serverless hosts such as Vercel,
+# where requests may land on different instances). Demo identities only; set VO_SECRET to change the key.
+_SECRET = os.environ.get("VO_SECRET", "vitalorbit-demo-secret").encode()
+def _sign(user_id: str) -> str:
+    return hmac.new(_SECRET, user_id.encode(), hashlib.sha256).hexdigest()[:32]
 
 
 def public(u):
@@ -30,16 +38,19 @@ def login(user_id: str, pin: str):
     u = USERS.get(user_id)
     if not u or u["pin"] != pin:
         raise HTTPException(401, "Wrong crew ID or PIN")
-    tok = secrets.token_urlsafe(24)
+    tok = f"{user_id}.{_sign(user_id)}"
     TOKENS[tok] = user_id
     return dict(token=tok, user=public(u))
 
 
 def current(authorization: str = Header(default="")):
     tok = authorization.removeprefix("Bearer ").strip()
-    if tok not in TOKENS:
-        raise HTTPException(401, "Please log in")
-    return USERS[TOKENS[tok]]
+    if tok in TOKENS:
+        return USERS[TOKENS[tok]]
+    uid, _, sig = tok.partition(".")
+    if uid in USERS and sig and hmac.compare_digest(sig, _sign(uid)):
+        return USERS[uid]
+    raise HTTPException(401, "Please log in")
 
 
 def can_see(user, crew_id: int) -> bool:

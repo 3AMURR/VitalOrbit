@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "index.py": {
+      "maxDuration": 60,
+      "excludeFiles": "{data/osdr_metadata/**,docs/**,submission/**,scripts/**,*.pdf,.venv/**}"
+    }
+  }
+}

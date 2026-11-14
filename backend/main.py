@@ -2,6 +2,9 @@
 from __future__ import annotations
 
 import asyncio
+import os
+import threading
+import time
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -16,6 +19,12 @@ from .engine import SCENARIOS, Mission
 
 mission: Mission | None = None
 SPEED = {"seconds_per_reading": 1.0, "paused": False}
+# On Vercel (serverless) there is no always-on process for the background loop, so the simulation
+# catches up on each API request instead. Locally (./run.sh) the original loop is used unchanged.
+SERVERLESS = bool(os.environ.get("VERCEL"))
+_init_lock, _tick_lock = threading.Lock(), threading.Lock()
+_last_tick = {"t": None}
+MAX_CATCHUP = 8  # ~0.5 s of work per request at most; idle gaps are skipped, not replayed
 User = Depends(auth.current)
 
 
@@ -39,20 +48,52 @@ async def _loop():
             await asyncio.to_thread(mission.tick)
 
 
+def _ensure():
+    global mission
+    if mission is not None:
+        return
+    with _init_lock:
+        if mission is None:
+            pharmacy.init()
+            m = Mission()
+            _seed(m)
+            mission = m
+def _catch_up():
+    if not _tick_lock.acquire(blocking=False):
+        return
+    try:
+        now = time.monotonic()
+        step = SPEED["seconds_per_reading"]
+        if _last_tick["t"] is None or SPEED["paused"]:
+            _last_tick["t"] = now
+            return
+        n = int((now - _last_tick["t"]) / step)
+        if n <= 0:
+            return
+        _last_tick["t"] = now if n > MAX_CATCHUP else _last_tick["t"] + n * step
+        for _ in range(min(n, MAX_CATCHUP)):
+            mission.tick()
+    finally:
+        _tick_lock.release()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    global mission
-    pharmacy.init()
-    mission = await asyncio.to_thread(Mission)
-    _seed(mission)
-    task = asyncio.create_task(_loop())
+    await asyncio.to_thread(_ensure)
+    task = None if SERVERLESS else asyncio.create_task(_loop())
     yield
-    task.cancel()
+    if task:
+        task.cancel()
 
 
 app = FastAPI(title="VitalOrbit", lifespan=lifespan)
 
 
+@app.middleware("http")
+async def serverless_clock(request, call_next):
+    if request.url.path.startswith("/api"):
+        await asyncio.to_thread(_ensure)
+        if SERVERLESS:
+            await asyncio.to_thread(_catch_up)
+    return await call_next(request)
 @app.middleware("http")
 async def no_cache(request, call_next):
     resp = await call_next(request)

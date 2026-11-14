@@ -12,7 +12,9 @@ import sqlite3
 from datetime import date, timedelta
 from pathlib import Path
 
-DB = Path(__file__).parent / "vitalorbit.db"
+import os
+# Vercel's code directory is read-only; /tmp is the writable scratch space there.
+DB = Path("/tmp/vitalorbit.db") if os.environ.get("VERCEL") else Path(__file__).parent / "vitalorbit.db"
 TODAY = date(2026, 11, 13)   # mission calendar "today" (fixed so the demo is reproducible)
 
 # name, category, form, qty, min_qty, label expiry, radiation_factor, used for (keywords)
