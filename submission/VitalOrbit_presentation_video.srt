@@ -1,0 +1,139 @@
+1
+00:00:00,450 --> 00:00:05,622
+VitalOrbit. An autonomous onboard health system for deep-space crews.
+
+2
+00:00:05,622 --> 00:00:08,771
+When Earth is nineteen light-minutes away,
+
+3
+00:00:08,771 --> 00:00:11,470
+the crew is its own first responder.
+
+4
+00:00:11,970 --> 00:00:15,347
+On Mars, help can't be forty minutes away.
+
+5
+00:00:15,347 --> 00:00:19,689
+One-way signal delay runs four to twenty-four minutes,
+
+6
+00:00:19,689 --> 00:00:24,754
+and during solar conjunction the link disappears for two weeks.
+
+7
+00:00:24,754 --> 00:00:26,845
+NASA's five RIDGE hazards:
+
+8
+00:00:26,845 --> 00:00:31,750
+radiation, isolation, distance, gravity, hostile environment,
+
+9
+00:00:31,750 --> 00:00:35,288
+do slow damage nobody on Earth sees in time.
+
+10
+00:00:35,788 --> 00:00:40,078
+So we built one system that detects, guides, and remembers.
+
+11
+00:00:40,078 --> 00:00:43,278
+A personal anomaly model for each astronaut,
+
+12
+00:00:43,278 --> 00:00:45,823
+trained on their own wearable data.
+
+13
+00:00:45,823 --> 00:00:49,895
+Long-mission risk forecasting to the end of the mission.
+
+14
+00:00:49,895 --> 00:00:53,167
+And an offline assistant with smart pharmacy:
+
+15
+00:00:53,167 --> 00:00:56,730
+guided first aid, with timers, voice, and Arabic.
+
+16
+00:00:57,230 --> 00:01:01,025
+It works as one chain. Vitals from real wearable data.
+
+17
+00:01:01,025 --> 00:01:05,943
+A personal model watching for deviation from that person's own rhythm.
+
+18
+00:01:05,943 --> 00:01:08,332
+A check-in that asks how you feel.
+
+19
+00:01:08,332 --> 00:01:11,916
+The assistant, with protocol, timers, and pharmacy.
+
+20
+00:01:11,916 --> 00:01:14,375
+And Earth, nineteen minutes behind,
+
+21
+00:01:14,375 --> 00:01:17,607
+with a structured SOAP report already written.
+
+22
+00:01:18,107 --> 00:01:23,199
+Does it work? Three thousand four hundred fifty-six real readings from four
+
+23
+00:01:23,199 --> 00:01:25,983
+people, plus twelve injected emergencies.
+
+24
+00:01:25,983 --> 00:01:30,192
+Twelve of twelve detected, the correct vital named every time.
+
+25
+00:01:30,192 --> 00:01:35,216
+Forty-five minutes median, to the first alert. Zero false critical alerts.
+
+26
+00:01:35,216 --> 00:01:39,630
+And every number in the app is tagged: real, simulated, or model.
+
+27
+00:01:40,130 --> 00:01:44,826
+Built for Mars, and useful wherever the doctor is far away.
+
+28
+00:01:44,826 --> 00:01:49,841
+Antarctic stations, submarines, offshore rigs, remote villages,
+
+29
+00:01:49,841 --> 00:01:54,378
+field hospitals. For crews, earlier warnings and privacy.
+
+30
+00:01:54,378 --> 00:01:57,562
+For flight surgeons, structured reports,
+
+31
+00:01:57,562 --> 00:02:00,268
+ready the moment the link returns.
+
+32
+00:02:00,768 --> 00:02:07,139
+Code and run instructions are on GitHub at three A M U R R, VitalOrbit.
+
+33
+00:02:07,139 --> 00:02:10,728
+Team CUPIQ, Egyptian Chinese University,
+
+34
+00:02:10,728 --> 00:02:14,317
+built with help from Claude. VitalOrbit:
+
+35
+00:02:14,317 --> 00:02:17,008
+medicine beyond Earth's reach.

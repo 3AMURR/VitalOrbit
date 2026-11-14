@@ -1,0 +1,35 @@
+1
+00:00:00,010 --> 00:00:02,919
+On Mars, Earth is nineteen light-minutes away.
+
+2
+00:00:03,160 --> 00:00:06,048
+VitalOrbit runs onboard, and learns your normal.
+
+3
+00:00:06,108 --> 00:00:09,028
+Sara's heart races at rest. Her model flags it.
+
+4
+00:00:11,060 --> 00:00:13,980
+Before an emergency, it asks how she feels.
+
+5
+00:00:14,060 --> 00:00:17,820
+The assistant knows her heart. Timers, protocol, medicine.
+
+6
+00:00:18,060 --> 00:00:20,393
+Hands-free care, and a report to Earth.
+
+7
+00:00:21,160 --> 00:00:24,373
+Earth gets it nineteen minutes later. The crew already acted.
+
+8
+00:00:24,433 --> 00:00:26,905
+Beyond emergencies: the mission forecast.
+
+9
+00:00:26,965 --> 00:00:29,918
+VitalOrbit: medicine beyond Earth's reach.
